@@ -270,7 +270,7 @@ class packetSniffer {
             return 0;
         }
 
-
+    return 0;
     };
     void printHelp(){
         std::cout << "Usage: packetSniffer [options] [interface]" << std::endl;

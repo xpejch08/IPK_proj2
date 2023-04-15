@@ -1,8 +1,9 @@
-CC = g++
-CFLAGS = -Wall -Werror
-TARGET = main.cpp
+LDFLAGS = -lpcap
 
-all:
-	g++ -std=c++20 main.cpp -o out
+all: out
+
+out: main.cpp
+	g++ -std=c++20 $^ -o $@ $(LDFLAGS)
+
 clean:
 	$(RM) out
