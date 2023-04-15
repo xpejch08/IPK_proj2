@@ -101,12 +101,24 @@ class packetSniffer {
                 << std::setfill('0') << std::setw(3) << millis.count() << "Z";
         printf("timestamp: %s \n", stream.str().c_str());
     }
+    void printMacAddress(auto filter){
+        printf("src MAC: %02X:%02X:%02X:%02X:%02X:%02X",
+               filter->ether_shost[0], filter->ether_shost[1],
+               filter->ether_shost[2], filter->ether_shost[3],
+               filter->ether_shost[4], filter->ether_shost[5]);
+
+        printf("dst MAC: %02X:%02X:%02X:%02X:%02X:%02X",
+               filter->ether_dhost[0], filter->ether_dhost[1],
+               filter->ether_dhost[2], filter->ether_dhost[3],
+               filter->ether_dhost[4], filter->ether_dhost[5]);
+    }
 
     static void packet(u_char *args, const struct pcap_pkthdr *header, const u_char *packet){
         snifferForPacket->timeStamp();
-        const struct ether_header *ethernetHeader = (struct ether_header*)packet;
         auto size = header->len;
+        struct mac_filter *macFilter = (struct mac_filter*)packet;
         const struct iphdr *ipHeader = (struct iphdr*)(packet + sizeof(struct ether_header));
+        const struct ether_header *ethernetHeader = (struct ether_header*)packet;
         auto *ipH = (struct ip*)(packet + sizeof(struct ether_header));
         const struct tcphdr *tcpHeader = (struct tcphdr*)(packet + sizeof(struct ether_header) + sizeof(struct ip));
         const struct udphdr *udpHeader = (struct udphdr*)(packet + sizeof(struct ether_header) + sizeof(struct ip));
@@ -118,7 +130,8 @@ class packetSniffer {
         if(ethernetHeader->ether_type == htons(ETHERTYPE_IP)){
             //icmp IPV4
             if(ipHeader->protocol == 1){
-                printf("src MAC: %s \n", ether_ntoa((struct ether_addr*)ethernetHeader->ether_shost));
+                snifferForPacket->printMacAddress(ethernetHeader);
+
             }
             //igmp ipv4
             else if(ipHeader->protocol == 2){
@@ -290,6 +303,7 @@ class packetSniffer {
     private:
     static packetSniffer * snifferForPacket;
 };
+
 
 packetSniffer * packetSniffer::snifferForPacket = nullptr;
 
