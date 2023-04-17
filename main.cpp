@@ -18,7 +18,7 @@ pcap_t *snifedDeviceGlobal;
 
 
 class packetSniffer {
-    public:
+public:
     /**
      * @brief function that returns all availible interfaces
      */
@@ -114,7 +114,7 @@ class packetSniffer {
         auto millis = std::chrono::duration_cast<std::chrono::milliseconds>(time.time_since_epoch()) % 1000;
         std::stringstream stream;
         stream << std::put_time(std::gmtime(&in_time_t), "%Y-%m-%dT%H:%M:%S") << "."
-                << std::setfill('0') << std::setw(3) << millis.count() << "Z";
+               << std::setfill('0') << std::setw(3) << millis.count() << "Z";
         printf("timestamp: %s \n", stream.str().c_str());
     }
     /**
@@ -152,23 +152,23 @@ class packetSniffer {
      */
     void printIpOfIpv6(const struct in6_addr *src, const struct in6_addr *dest){
         printf("src IP: %02x%02x:%02x%02x:%02x%02x:%02x%02x:%02x%02x:%02x%02x:%02x%02x:%02x%02x\n",
-                (int)src->s6_addr[0], (int)src->s6_addr[1],
-                (int)src->s6_addr[2], (int)src->s6_addr[3],
-                (int)src->s6_addr[4], (int)src->s6_addr[5],
-                (int)src->s6_addr[6], (int)src->s6_addr[7],
-                (int)src->s6_addr[8], (int)src->s6_addr[9],
-                (int)src->s6_addr[10], (int)src->s6_addr[11],
-                (int)src->s6_addr[12], (int)src->s6_addr[13],
-                (int)src->s6_addr[14], (int)src->s6_addr[15]);
+               (int)src->s6_addr[0], (int)src->s6_addr[1],
+               (int)src->s6_addr[2], (int)src->s6_addr[3],
+               (int)src->s6_addr[4], (int)src->s6_addr[5],
+               (int)src->s6_addr[6], (int)src->s6_addr[7],
+               (int)src->s6_addr[8], (int)src->s6_addr[9],
+               (int)src->s6_addr[10], (int)src->s6_addr[11],
+               (int)src->s6_addr[12], (int)src->s6_addr[13],
+               (int)src->s6_addr[14], (int)src->s6_addr[15]);
         printf("dst IP: %02x%02x:%02x%02x:%02x%02x:%02x%02x:%02x%02x:%02x%02x:%02x%02x:%02x%02x\n",
-                (int)dest->s6_addr[0], (int)dest->s6_addr[1],
-                (int)dest->s6_addr[2], (int)dest->s6_addr[3],
-                (int)dest->s6_addr[4], (int)dest->s6_addr[5],
-                (int)dest->s6_addr[6], (int)dest->s6_addr[7],
-                (int)dest->s6_addr[8], (int)dest->s6_addr[9],
-                (int)dest->s6_addr[10], (int)dest->s6_addr[11],
-                (int)dest->s6_addr[12], (int)dest->s6_addr[13],
-                (int)dest->s6_addr[14], (int)dest->s6_addr[15]);
+               (int)dest->s6_addr[0], (int)dest->s6_addr[1],
+               (int)dest->s6_addr[2], (int)dest->s6_addr[3],
+               (int)dest->s6_addr[4], (int)dest->s6_addr[5],
+               (int)dest->s6_addr[6], (int)dest->s6_addr[7],
+               (int)dest->s6_addr[8], (int)dest->s6_addr[9],
+               (int)dest->s6_addr[10], (int)dest->s6_addr[11],
+               (int)dest->s6_addr[12], (int)dest->s6_addr[13],
+               (int)dest->s6_addr[14], (int)dest->s6_addr[15]);
     }
 
     /**
@@ -187,7 +187,7 @@ class packetSniffer {
                 if (i != 0) {
                     printf("  %s\n", byteOffsetBuff);
                 }
-                printf("0x%04", i);
+                printf("0x%04x", i);
             }
             printf(" %02x", byte_offset_hexa[i]);
             if ((byte_offset_hexa[i] < 0x20) || (byte_offset_hexa[i] > 0x7e)) {
@@ -239,19 +239,19 @@ class packetSniffer {
                 snifferForPacket->srcIP(arpHeader);
 
             }
-            //igmp ipv4
+                //igmp ipv4
             else if(ipHeader->protocol == 2){
                 snifferForPacket->printMacAndFrameLen(ethernetHeader, size);
                 snifferForPacket->srcIP(arpHeader);
             }
-            //tcp ipv4
+                //tcp ipv4
             else if(ipHeader->protocol == 6){
                 snifferForPacket->printMacAndFrameLen(ethernetHeader, size);
                 snifferForPacket->srcIP(arpHeader);
                 printf("\nsrc port: %d\n", ntohs(tcpHeader->source));
                 printf("\ndst port: %d\n", ntohs(tcpHeader->dest));
             }
-            //udp ipv4
+                //udp ipv4
             else if(ipHeader->protocol == 17){
                 snifferForPacket->printMacAndFrameLen(ethernetHeader, size);
                 snifferForPacket->srcIP(arpHeader);
@@ -259,19 +259,19 @@ class packetSniffer {
                 printf("\ndst port: %d\n", ntohs(udpHeader->dest));
             }
         }
-        //checking for ipv6 types
+            //checking for ipv6 types
         else if(ethernetHeader->ether_type == htons(ETHERTYPE_IPV6)){
             //icmp ipv6
             if(ip6Header->ip6_ctlun.ip6_un1.ip6_un1_nxt == 58){
                 snifferForPacket->printMacAndFrameLen(ethernetHeader, size);
                 snifferForPacket->printIpOfIpv6(&ip6Header->ip6_src, &ip6Header->ip6_dst);
             }
-            //mld ipv6 and ndp
+                //mld ipv6 and ndp
             else if(ip6Header->ip6_ctlun.ip6_un1.ip6_un1_nxt == IPPROTO_ICMPV6){
                 snifferForPacket->printMacAndFrameLen(ethernetHeader, size);
                 snifferForPacket->printIpOfIpv6(&ip6Header->ip6_src, &ip6Header->ip6_dst);
             }
-            //tcp ipv6
+                //tcp ipv6
             else if(ip6Header->ip6_ctlun.ip6_un1.ip6_un1_nxt == 6){
                 snifferForPacket->printMacAndFrameLen(ethernetHeader, size);
                 snifferForPacket->printIpOfIpv6(&ip6Header->ip6_src, &ip6Header->ip6_dst);
@@ -279,7 +279,7 @@ class packetSniffer {
                 printf("dst port: %d\n", ntohs(tcpHeader->dest));
 
             }
-            //udp ipv6
+                //udp ipv6
             else if(ip6Header->ip6_ctlun.ip6_un1.ip6_un1_nxt == 17){
                 snifferForPacket->printMacAndFrameLen(ethernetHeader, size);
                 snifferForPacket->printIpOfIpv6(&ip6Header->ip6_src, &ip6Header->ip6_dst);
@@ -287,7 +287,7 @@ class packetSniffer {
                 printf("dst port: %d\n", ntohs(udpHeader->dest));
             }
         }
-        //checking for arp types
+            //checking for arp types
         else if(ethernetHeader->ether_type == htons(ETHERTYPE_ARP)){
             struct ether_arp *arp = (struct ether_arp *)(packet + sizeof(struct ether_header) + len);
             char IP[16], IP2[16];
@@ -299,6 +299,7 @@ class packetSniffer {
         //printing out the actual packet data
         std::cout << std::endl;
         snifferForPacket->printByteOffset(packet, int(size));
+        std::cout << std::endl;
 
     };
     /**
@@ -321,21 +322,21 @@ class packetSniffer {
                 printHelp();
                 exit(0);
             }
-            // after -p the port number should be given
+                // after -p the port number should be given
             else if(argument == "-p") {
-                    p = true;
-                    try {
-                        portNumber = std::stoi(argv[i+1]);
-                    }
-                    catch (std::exception const &e) {
-                        std::cout << "Error: no port number specified" << std::endl;
-                        exit(1);
-                    }
-                    if(portNumber < 0 || portNumber > 65535){
-                        std::cout << "Error: invalid port number specified" << std::endl;
-                        exit(1);
-                    }
-                    i++;
+                p = true;
+                try {
+                    portNumber = std::stoi(argv[i+1]);
+                }
+                catch (std::exception const &e) {
+                    std::cout << "Error: no port number specified" << std::endl;
+                    exit(1);
+                }
+                if(portNumber < 0 || portNumber > 65535){
+                    std::cout << "Error: invalid port number specified" << std::endl;
+                    exit(1);
+                }
+                i++;
             }
             else if(argument == "-u" || argument == "--udp"){
                 udp = true;
@@ -343,8 +344,8 @@ class packetSniffer {
             else if(argument == "-t" || argument == "--tcp"){
                 tcp = true;
             }
-            //checking if the user input a specific interface, if not, we print out all the available interfaces,
-            // else we check if the interface exists or not
+                //checking if the user input a specific interface, if not, we print out all the available interfaces,
+                // else we check if the interface exists or not
             else if(argument == "-i" || argument == "--interface"){
                 interface = true;
                 try {
@@ -353,6 +354,7 @@ class packetSniffer {
                 }
                 catch (std::exception const &e) {
                     printInterfaces(allInterfaces);
+                    exit(0);
                 }
                 if(interfaceArgument == ""){
                     printInterfaces(allInterfaces);
@@ -380,7 +382,7 @@ class packetSniffer {
             else if(argument == "--mld"){
                 mld = true;
             }
-            //after the -n the number of packets we want to scan should be given
+                //after the -n the number of packets we want to scan should be given
             else if(argument == "-n"){
                 n = true;
                 try {
@@ -398,7 +400,7 @@ class packetSniffer {
                 }
                 i++;
             }
-            //anything else is an error
+                //anything else is an error
             else{
                 std::cout << "Error: invalid argument" << std::endl;
                 exit(1);
@@ -419,14 +421,22 @@ class packetSniffer {
             return 0;
         }
 
-    return 0;
+        return 0;
     };
     /**
      * @brief function that prints the usage if the parameter -h/--help is given
      */
     void printHelp(){
-        std::cout << "Usage: packetSniffer [options] [interface]" << std::endl;
+        std::cout << "Usage: packetSniffer [options]" << std::endl;
         std::cout << "Options:" << std::endl;
+        std::cout << "[-i interface | --interface interface]: if the interface is not present prints the list of interfaces\n else sniffs on that particular interface" << std::endl;
+        std::cout << "{-p port [--tcp|-t] [--udp|-u]}: where port tells us the port number(optional), extends sniffing tcp or udp packets" << std::endl;
+        std::cout << "[--arp]: sniff for arp type packets" << std::endl;
+        std::cout << "[--icmp4]: sniff for icmp4 type packets" << std::endl;
+        std::cout << "[--icmp6]: sniff for icmp type packets" << std::endl;
+        std::cout << "[--igmp]: sniff for igmp type packets" << std::endl;
+        std::cout << "[--mld]: sniff for mld type packets" << std::endl;
+        std::cout << "{-n num}: number of packets we want to sniff" << std::endl;
     };
     bool icmp4 = false;
     bool icmp6 = false;
@@ -452,7 +462,7 @@ class packetSniffer {
     pcap_t *sniffedDevice;
     bpf_program pcFilterBpf;
 
-    private:
+private:
     //variable used to point to the same object declared in main, so we can use all methods in the static packet() method
     static packetSniffer * snifferForPacket;
 };
