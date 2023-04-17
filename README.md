@@ -1,6 +1,6 @@
 # IPK Project2 ZETA variant
 Implementation of a packet sniffer in c++
-##Authors
+## Authors
 
 - [@xpejch08](https://www.github.com/xpejch08)
 
