@@ -102,6 +102,7 @@ Then the main sniffer part begins. I described this part in the **What is a pack
 
 
 ## Usage/Examples and Testing
+I cross referrenced the packets from my terminal with ones I found in Wireshark to confirm that they are the same as seen in the example below
 ### testing interface print
 ```
 stepan@stepan-Lenovo-Legion-5-15ARH05H:~/Documents/c++/ipk/proj2git/IPK_proj2$ ./ipk-sniffer -i
@@ -175,12 +176,18 @@ src IP: 10.0.0.138
 0x0000 20 e8 82 fd 40 20 70 9c d1 f5 96 ff 08 06 00 01   ...@ p.........
 0x0010 08 00 06 04 00 02 70 9c d1 f5 96 ff 0a 00 00 0a  ......p.........
 0x0020 20 e8 82 fd 40 20 0a 00 00 8a                     ...@ ....
+```
 ![Picture 2](/img/1.png "arp packet wireshark")
 ![Picture 3](/img/arp.png "arp packet wireshark")
-
-```
 
 ## Bibliographie/sources
 - the definitons of TCP and UDP are stubs from my IPK project number 1
 - [link] https://www.winpcap.org/docs/docs_412/html/funcs_2pcap_8h.html
 - [link] https://www.imperva.com/learn/application-security/osi-model/
+- [link] https://www.tcpdump.org/manpages/
+- [link] https://en.wikipedia.org/wiki/Neighbor_Discovery_Protocol
+- [link] https://ipcisco.com/lesson/ipv6-ndp-neighbour-discovery-protocol/
+- [link] https://www.iana.org/assignments/icmpv6-parameters/icmpv6-parameters.xhtml#icmpv6-parameters-2
+- [link] https://cs.wikipedia.org/wiki/ICMPv6
+- [link] https://www.kaitotek.com/resources/documentation/concepts/packet-filter/pcap-filter-syntax#pcap_filter_syntax-primitives-protocol
+- [link] https://www.youtube.com/watch?v=a1AQfjWwPaE
