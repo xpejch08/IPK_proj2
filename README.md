@@ -118,7 +118,7 @@ stepan@stepan-Lenovo-Legion-5-15ARH05H:~/Documents/c++/ipk/proj2git/IPK_proj2$ .
 ```
 ###
 ```
-stepan@stepan-Lenovo-Legion-5-15ARH05H:~/Documents/c++/ipk/proj2git/IPK_proj2$ sudo ./out -i wlp4s0 -n 1
+stepan@stepan-Lenovo-Legion-5-15ARH05H:~/Documents/c++/ipk/proj2git/IPK_proj2$ sudo ./ipk-sniffer -i wlp4s0 -n 1
 [sudo] password for stepan: 
 timestamp: 2023-04-17T20:48:43.455Z 
 src MAC: 54:BF:64:52:82:91
@@ -133,7 +133,7 @@ src IP: 10.0.0.138
 0x0030 00 00 00 00 00 00 00 00 00 00 00 00              ............
 ```
 ```
-stepan@stepan-Lenovo-Legion-5-15ARH05H:~/Documents/c++/ipk/proj2git/IPK_proj2$ sudo ./out -i wlp4s0 --tcp
+stepan@stepan-Lenovo-Legion-5-15ARH05H:~/Documents/c++/ipk/proj2git/IPK_proj2$ sudo ./ipk-sniffer -i wlp4s0 --tcp
 timestamp: 2023-04-17T20:50:41.991Z 
 src MAC: 70:9C:D1:F5:96:FF
 dst MAC: 20:E8:82:FD:40:20
@@ -150,6 +150,31 @@ dst port: 5228
 0x0020 1b bc b4 1e 14 6c 5f a6 79 bb a9 df 3c 5f 80 10  .....l_.y...<_..
 0x0030 01 f5 b4 e6 00 00 01 01 08 0a aa c5 1f 87 61 d7  ..............a.
 0x0040 ae f0                                            ..
+
+```
+```
+stepan@stepan-Lenovo-Legion-5-15ARH05H:~/Documents/c++/ipk/proj2git/IPK_proj2$ sudo ./ipk-sniffer -i wlp4s0 --arp --udp -n 2
+timestamp: 2023-04-17T21:04:42.603Z 
+src MAC: 20:E8:82:FD:40:20
+dst MAC: 70:9C:D1:F5:96:FF
+frame length: 42
+src IP: 10.0.0.138
+src IP: 10.0.0.10
+
+0x0000 70 9c d1 f5 96 ff 20 e8 82 fd 40 20 08 06 00 01  p..... ...@ ....
+0x0010 08 00 06 04 00 01 20 e8 82 fd 40 20 0a 00 00 8a  ...... ...@ ....
+0x0020 00 00 00 00 00 00 0a 00 00 0a                    ..........
+
+timestamp: 2023-04-17T21:04:42.603Z 
+src MAC: 70:9C:D1:F5:96:FF
+dst MAC: 20:E8:82:FD:40:20
+frame length: 42
+src IP: 10.0.0.10
+src IP: 10.0.0.138
+
+0x0000 20 e8 82 fd 40 20 70 9c d1 f5 96 ff 08 06 00 01   ...@ p.........
+0x0010 08 00 06 04 00 02 70 9c d1 f5 96 ff 0a 00 00 0a  ......p.........
+0x0020 20 e8 82 fd 40 20 0a 00 00 8a                     ...@ ....
 
 ```
 
