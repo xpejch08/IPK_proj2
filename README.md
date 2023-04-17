@@ -23,7 +23,7 @@ My implementation revolves mostly aaround a c++ library called pcap.h (the reffe
 ### The protocols I use to sniff
 #### The OSI model
 The Open Systems Interconnection model is a model used for decribing network communication. It describes the network protocols and how communication works between different devices. It is described in 7 layers
-![Picture 1](/img/OSI.png "OSI model")
+![Picture 1](/img/osi.png "OSI model")
 
 #### TCP
 TCP (Transmission Control Protocol) is a defined way of communication through a network between 2 seperete candidates. TCP unlike UDP is a connection-oriented protocol which means the connection has to be established and maintained untill the final message exchange ends. That makes TCP more reliable. TCP is one of the most used protocols, because it ensures you will recieve your packets correctly. In TCP communication there are 4 main parts to implement on the client side and those are:
@@ -175,6 +175,8 @@ src IP: 10.0.0.138
 0x0000 20 e8 82 fd 40 20 70 9c d1 f5 96 ff 08 06 00 01   ...@ p.........
 0x0010 08 00 06 04 00 02 70 9c d1 f5 96 ff 0a 00 00 0a  ......p.........
 0x0020 20 e8 82 fd 40 20 0a 00 00 8a                     ...@ ....
+![Picture 2](/img/1.png "arp packet wireshark")
+![Picture 3](/img/arp.png "arp packet wireshark")
 
 ```
 
