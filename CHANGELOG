@@ -1,5 +1,5 @@
 
-# Chanellog
+# Changelog
 
 - The program is a filter implementation of a packet sniffer written in c++ standard 20.
 - I first implemented the basic structure and defined my c++ packetSniffer class.
