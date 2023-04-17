@@ -1,9 +1,11 @@
-LDFLAGS = -lpcap
+CC=g++
+TARGET=ipk-sniffer
+LDFLAGS=-lpcap
 
-all: out
+all: $(TARGET)
 
-out: main.cpp
-	g++ -std=c++20 $^ -o $@ $(LDFLAGS)
+$(TARGET): main.cpp
+	$(CC) -std=c++20 $^ -o $@ $(LDFLAGS)
 
 clean:
-	$(RM) out
+	$(RM) $(TARGET)
