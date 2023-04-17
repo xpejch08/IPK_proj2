@@ -36,12 +36,64 @@ UDP (User Datagram Protocol) is also a defined way of communication similar to T
 - Creating a packet(datagram) with the serverIP and port and sending it
 - Reading a packet(datagram) from the server
 - closing th connection
-#### icmp4
-#### icmp6
+#### icmp
+Internet Control Message Protocol is a protocol used by devices such as routers or switches. It is used to communicate messages about the condition of the network and operational conditions such as error messages. Icmp is used with both IPv4 and IPv6 hence the commanadl line arguments specified in the task. This protocol works on top of the IP Internet Protocol.
 #### arp
+Adress Resolution Protocol is a protocol used to map a network adress to a physical adress. for example it caps the IP adress to the MAC address. When 2 devices want to communicate they usually know just the network adress. That is why arp exists, it maps the network adress of the devices we want to communicate to and gets it's physical address. It can be used with both IPv4 and IPv6. 
 #### ndp
 #### igmp
 #### mld
+### My implementation
+I decided to use c++ for my implementation.
+#### Main structure of program
+My program consists of 2 main parts
+- class packetSniffer
+- main function of program
+#### packet Sniffer class:
+This class contains all methods (except for the signalHandler) that are used for the sniffer implementation and are not inbuilt functions of the pcap.h lib.  
+
+methods: 
+- pcap_if_t allInterfaces
+- static void setPacketObject
+- void printInterfaces
+- void interfaceCheck
+- void pcapFilter
+- void timeStamp
+- void printMacAndFrameLen
+- void srcIP
+- void printIpOfIpv6
+- void printByteOffset
+- void printSrcDstArp
+- static void packet
+- int checkArguments
+- void printHelp  
+variables public:
+- boolean variables for each command line argument set in the checkArguments function
+- boolean interfaceExists that is set when checking if interface exists
+- std::string interfaceArgument contains the name of the interface we want to sniff packets on
+- std::string pcFilter used for setting the pcap filter, the sniffer then looks only for packets defined in the filter
+- bpf_u_int32 used for getting the ip of the sniffed device
+- bpf_u_int32 used for getting the netmask of the sniffed device
+- char errbuf[PCAP_ERRBUF_SIZE] used for storing error messages
+- pcap_t *sniffedDevice predefined struct from pcap.h for storing info about the sniffed device
+- bpf_program pcFilterBpf predefined structure for storing information about the pcap filter  
+
+**allInterfaces method**: a function that returns all availible interfaces using the pcap_findalldevs function. The interfaces are stored in the allInterfaces variable of type pcap_if_t.  
+**setPacketObject method**: this method is used for setting the variable snifferForPacket. I had to create this variable and method, because the pcap_loop function takes a pointer to a static function as the third parameter, because of that I couldn't regularly access the method from inside of the class unless I made it static. But because of that, calling nonstatic methods from the function is an error. This method sets this object to point to the same memory as the object defined in main so I can use it's methods in a static function.  
+**printInterfaces method**: function that prints all availible interfaces on stdin, called when the -interface/-i parameter is used  
+**interfaceCheck method**: this method checks if the interface passed in the command line argument exists  
+**pcapFilter method**: This method sets the pcapFilter accordingly based on the command line arguments. It checks whether or not the boolean variables for each argument are true or not and then concatenates them to an std::string. The string is then used in the pcap_compile function in main to create the actual filter. It first checks whether or not the port number was specified, then accordingly sets the udp and tcp filter. If not, it sets the rest. 
+**timestamp method**: this method creates the timestamp according to the RFC 3339 format  
+**printMacAndFrameLen method**: This method prints out the source and destination MAC address and then prints out the length of the frame in bytes. I pass the function a const struct ether_header* that contains all of the data in the ->ethershost[n]. I also pass the frame length.  
+**srcIP method**: This method takes in a parameter of struct ip* and prints the source and destination ip. Used in IPv4 protocols.  
+**printIpOfIpv6**: This method takes 2 parameters of the const struct in6_addr* type. These structures contain the IPv6 ip adress. I pass 2 parameters one for source and one for destination. This method was implemented based on an answer I found on stackoverflow (the source is found below).  
+**printByteOffset method**: This method prints the actual packet data. It takes in the data of the packet and the length. It iterates through the data and prints out the characters in hexadecimal, after 16 bytes it prints out the corresponding characters in ASCII. If they are printable the character is printed else a '.' is printed. In the end, if the number is not divisible by 16 it padds the rest with spaces, so the format stays intact.
+**printSrcDstArp method**: this function prints the source and destination if the ARP protocol is used with the packet. It takes in 2 string(source and destination), and prints them on stdout.
+**packet method**: This is the main method of the packetSniffer. It is called in the pcap_loop function in main and prints out the data requested for the specific packet. First I call the timeStamp method through the snifferForPacket object to print the timestamp of the sniffed packet. Then I create variables for each protocol that we will need. Also I declare a ether_header variable and assign it to the pacet. This built in structure contains the data about our packet. I use it in the if else clauses to check for the type and then respond accordingly. I also set the variable of type iphdr. This variable contains the specific protocol number which we use for checking the desired protocol and printing out the correct data. I also save the length of the packet in the variable size.
+
+
+
+  
 
 
 ## Bibliographie/sources
