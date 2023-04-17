@@ -19,7 +19,32 @@ My implementation revolves mostly aaround a c++ library called pcap.h (the reffe
 5. Using the pcap_loop function I sniff for packets on the desired device
 6. Then I close the device using pcap_close
 
-###
+### The protocols I use to sniff
+#### The OSI model
+The Open Systems Interconnection model is a model used for decribing network communication. It describes the network protocols and how communication works between different devices. It is described in 7 layers
+![Picture 1](/img/OSI.png "OSI model")
+
+#### TCP
+TCP (Transmission Control Protocol) is a defined way of communication through a network between 2 seperete candidates. TCP unlike UDP is a connection-oriented protocol which means the connection has to be established and maintained untill the final message exchange ends. That makes TCP more reliable. TCP is one of the most used protocols, because it ensures you will recieve your packets correctly. In TCP communication there are 4 main parts to implement on the client side and those are:
+- Creating a socket and connecting to a server
+- Sending a message(request) to the server
+- Read the reply from the server
+- Closing the connection with the server
+#### UDP
+UDP (User Datagram Protocol) is also a defined way of communication similar to TCP. The main difference between TCP and UDP is that UDP is a connectionless and unreliable protocol. There is no need to establish a connection prior to data transfer, that can result in some loss of data and that is why UDP is used mainly for low-latency, losst-tolerating connections established over a network. The UDP communication is used for example in voice or video connection mainly because it is more efficient. One of the reasons is that UDP doesn't check for errors. In UDP communication there are also 4 main parts to implement on the client side:
+- Creating a socket(in UDP u don't have to conncect before sending packets)
+- Creating a packet(datagram) with the serverIP and port and sending it
+- Reading a packet(datagram) from the server
+- closing th connection
+#### icmp4
+#### icmp6
+#### arp
+#### ndp
+#### igmp
+#### mld
+
 
 ## Bibliographie/sources
-- https://www.winpcap.org/docs/docs_412/html/funcs_2pcap_8h.html
+- the definitons of TCP and UDP are stubs from my IPK project number 1
+- [link] https://www.winpcap.org/docs/docs_412/html/funcs_2pcap_8h.html
+- [link] https://www.imperva.com/learn/application-security/osi-model/
